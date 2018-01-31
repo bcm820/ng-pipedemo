@@ -1,0 +1,86 @@
+
+<!-- If HTTP request fails, this message will show -->
+<span *ngIf="!episodes">
+    <h4>500 Internal server error.</h4>
+    <p>Your data could not be loaded at this time.</p>
+</span>
+
+<!-- If HTTP request successful, this will show -->
+<span *ngIf="episodes">
+<div class="row text-center">
+    <div class=col-sm-3>&nbsp;</div>
+    <div class=col-sm-6>
+
+        <table class="table table-bordered">
+            <tr>
+                <td><strong>Seasons:</strong></td>
+                <td [ngClass]="{selected: season === 1}"><a (click)="title = 'Season 1'; season = 1" href="#">1</a></td>
+                <td [ngClass]="{selected: season === 2}"><a (click)="title = 'Season 2'; season = 2" href="#">2</a></td>
+                <td [ngClass]="{selected: season === 3}"><a (click)="title = 'Season 3'; season = 3" href="#">3</a></td>
+                <td [ngClass]="{selected: season === 4}"><a (click)="title = 'Season 4'; season = 4" href="#">4</a></td>
+                <td [ngClass]="{selected: season === 5}"><a (click)="title = 'Season 5'; season = 5" href="#">5</a></td>
+                <td [ngClass]="{selected: season === 6}"><a (click)="title = 'Season 6'; season = 6" href="#">6</a></td>
+                <td [ngClass]="{selected: season === 7}"><a (click)="title = 'Season 7'; season = 7" href="#">7</a></td>
+                <td [ngClass]="{selected: season === null}">
+                    <a (click)="title = 'All Seasons'; season = null; setOrder('season')" href="#">All</a>
+                    <span *ngIf="orderBy === 'season'"><i class="material-icons">arrow_upward</i></span>
+                    <span *ngIf="orderBy === 'seasonReverse'"><i class="material-icons">arrow_downward</i></span>
+                </td>
+            </tr>
+        </table>
+
+        <table class="table table-bordered">
+            <tr>
+                <td><strong>Sort By:</strong></td>
+                <td [ngClass]="{selected: orderBy === 'title' || orderBy === 'titleReverse'}">
+                    <a (click)="setOrder('title')" href="#">Title</a>
+                    <span *ngIf="orderBy === 'title'"><i class="material-icons">arrow_upward</i></span>
+                    <span *ngIf="orderBy === 'titleReverse'"><i class="material-icons">arrow_downward</i></span>
+                </td>
+                <td [ngClass]="{selected: orderBy === 'rating' || orderBy === 'ratingReverse'}">
+                    <a (click)="setOrder('rating')" href="#">Rating</a>
+                    <span *ngIf="orderBy === 'rating'"><i class="material-icons">arrow_upward</i></span>
+                    <span *ngIf="orderBy === 'ratingReverse'"><i class="material-icons">arrow_downward</i></span>
+                </td>
+                <td [ngClass]="{selected: orderBy === 'votes' || orderBy === 'votesReverse'}">
+                    <a (click)="setOrder('votes')" href="#">Votes</a>
+                    <span *ngIf="orderBy === 'votes'"><i class="material-icons">arrow_upward</i></span>
+                    <span *ngIf="orderBy === 'votesReverse'"><i class="material-icons">arrow_downward</i></span>
+                </td>
+                <td [ngClass]="{selected: orderBy === 'epNum' || orderBy === 'epNumReverse'}">
+                    <a (click)="setOrder('epNum')" href="#">Episode</a>
+                    <span *ngIf="orderBy === 'epNum'"><i class="material-icons">arrow_upward</i></span>
+                    <span *ngIf="orderBy === 'epNumReverse'"><i class="material-icons">arrow_downward</i></span>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+    <div class=col-sm-3>&nbsp;</div>
+    
+</div>
+<h4>{{title}}</h4>
+<table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>Season</th>
+        <th>Episode</th>
+        <th>Title</th>
+        <th>Length</th>
+        <th>Avg. Rating</th>
+        <th># of Votes</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- Pipe directives called on episodes array (see sort.pipe.ts & filter.pipe.ts) -->
+      <tr *ngFor="let e of episodes | filter:season | sort:orderBy">
+        <td>{{e.seasonNumber}}</td>
+        <td>{{e.episodeNumber}}</td>
+        <td>{{e.originalTitle}}</td>
+        <td>{{e.runtimeMinutes}} minutes</td>
+        <td><span class=badge>{{e.averageRating}}</span></td>
+        <td><span class=badge>{{e.numVotes}}</span></td>
+      </tr>
+    </tbody>
+</table>
+</span>
